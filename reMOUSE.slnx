@@ -1,0 +1,10 @@
+<Solution>
+  <Project Path="src/ReMouse.Core/ReMouse.Core.csproj" />
+  <Project Path="src/ReMouse.App/ReMouse.App.csproj" />
+  <Project Path="src/ReMouse.Windows/ReMouse.Windows.csproj" />
+  <Project Path="src/ReMouse.InputProbe/ReMouse.InputProbe.csproj" />
+  <Project Path="tests/ReMouse.Core.Tests/ReMouse.Core.Tests.csproj" />
+  <Project Path="tests/ReMouse.App.Tests/ReMouse.App.Tests.csproj" />
+  <Project Path="tests/ReMouse.Windows.Tests/ReMouse.Windows.Tests.csproj" />
+  <Project Path="tests/ReMouse.InputProbe.Tests/ReMouse.InputProbe.Tests.csproj" />
+</Solution>

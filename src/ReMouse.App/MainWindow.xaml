@@ -1,0 +1,191 @@
+<Window x:Class="ReMouse.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="reMOUSE"
+        Width="720"
+        Height="720"
+        MinWidth="560"
+        MinHeight="520"
+        WindowStartupLocation="CenterScreen">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="28">
+            <TextBlock FontSize="28" FontWeight="SemiBold" Text="reMOUSE" />
+            <TextBlock Margin="0,8,0,0"
+                       FontSize="16"
+                       Text="Mouse remapping workspace" />
+
+            <GroupBox Margin="0,20,0,0" Header="Side buttons">
+                <Grid Margin="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180" />
+                        <ColumnDefinition Width="220" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock VerticalAlignment="Center" Text="XButton1 (lower)" />
+                    <ComboBox x:Name="LowerButtonActionCombo"
+                              Grid.Column="1"
+                              SelectedValuePath="Tag"
+                              SelectionChanged="OnSideButtonSelectionChanged">
+                        <ComboBoxItem Tag="PixelInspector">Pixel inspector</ComboBoxItem>
+                        <ComboBoxItem Tag="RadialMenu">Radial menu</ComboBoxItem>
+                        <ComboBoxItem Tag="None">Pass through</ComboBoxItem>
+                    </ComboBox>
+                    <TextBlock Grid.Column="2"
+                               Margin="12,0,0,0"
+                               Foreground="#6B7280"
+                               Text="Terra lower side key" />
+
+                    <TextBlock Grid.Row="1" Margin="0,10,0,0" VerticalAlignment="Center" Text="XButton2 (upper)" />
+                    <ComboBox x:Name="UpperButtonActionCombo"
+                              Grid.Row="1"
+                              Grid.Column="1"
+                              Margin="0,10,0,0"
+                              SelectedValuePath="Tag"
+                              SelectionChanged="OnSideButtonSelectionChanged">
+                        <ComboBoxItem Tag="PixelInspector">Pixel inspector</ComboBoxItem>
+                        <ComboBoxItem Tag="RadialMenu">Radial menu</ComboBoxItem>
+                        <ComboBoxItem Tag="None">Pass through</ComboBoxItem>
+                    </ComboBox>
+                    <TextBlock Grid.Row="1"
+                               Grid.Column="2"
+                               Margin="12,10,0,0"
+                               Foreground="#6B7280"
+                               Text="Terra upper side key" />
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Margin="0,14,0,0" Header="Middle-button flick">
+                <Grid Margin="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="220" />
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock VerticalAlignment="Center" Text="Wheel delta per flick" />
+                    <TextBox x:Name="FlickDeltaTextBox" Grid.Column="1" />
+                    <TextBlock Grid.Column="2"
+                               Margin="12,0,0,0"
+                               Foreground="#6B7280"
+                               Text="Left = negative, right = positive" />
+                </Grid>
+            </GroupBox>
+
+            <GroupBox Margin="0,14,0,0" Header="Radial menu slot">
+                <Grid Margin="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="170" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock VerticalAlignment="Center" Text="Slot" />
+                    <ComboBox x:Name="RadialSlotComboBox"
+                              Grid.Column="1"
+                              SelectedValuePath="Tag"
+                              SelectionChanged="OnRadialSlotChanged" />
+
+                    <TextBlock Grid.Row="1" Margin="0,10,0,0" VerticalAlignment="Center" Text="Label" />
+                    <TextBox x:Name="RadialLabelTextBox" Grid.Row="1" Grid.Column="1" Margin="0,10,0,0" />
+
+                    <TextBlock Grid.Row="2" Margin="0,10,0,0" VerticalAlignment="Center" Text="Action" />
+                    <ComboBox x:Name="RadialActionComboBox"
+                              Grid.Row="2"
+                              Grid.Column="1"
+                              Margin="0,10,0,0"
+                              SelectedValuePath="Tag"
+                              SelectionChanged="OnRadialActionChanged">
+                        <ComboBoxItem Tag="NoOp">No action</ComboBoxItem>
+                        <ComboBoxItem Tag="Shortcut">Shortcut</ComboBoxItem>
+                        <ComboBoxItem Tag="LaunchApplication">Open application</ComboBoxItem>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="3" Margin="0,10,0,0" VerticalAlignment="Center" Text="Shortcut" />
+                    <TextBox x:Name="ShortcutTextBox"
+                             Grid.Row="3"
+                             Grid.Column="1"
+                             Margin="0,10,0,0"
+                             IsReadOnly="True"
+                             PreviewKeyDown="OnShortcutPreviewKeyDown"
+                             ToolTip="Click here, then press a shortcut such as Ctrl+C" />
+                    <Button x:Name="ClearShortcutButton"
+                            Grid.Row="3"
+                            Grid.Column="2"
+                            Margin="8,10,0,0"
+                            Padding="10,4"
+                            Click="OnClearShortcut"
+                            Content="Clear"
+                            ToolTip="Remove the shortcut from this slot" />
+
+                    <TextBlock Grid.Row="4" Margin="0,10,0,0" VerticalAlignment="Center" Text="Application" />
+                    <Grid Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBox x:Name="ApplicationPathTextBox" />
+                        <WrapPanel Grid.Row="1" Margin="0,8,0,0">
+                            <Button Padding="12,4"
+                                    Click="OnBrowseApplication"
+                                    Content="Browse..." />
+                            <Button Margin="8,0,0,0"
+                                    Padding="12,4"
+                                    Click="OnChooseRunningApplication"
+                                    Content="Running apps..." />
+                            <Button Margin="8,0,0,0"
+                                    Padding="12,4"
+                                    Click="OnChooseStartMenuApplication"
+                                    Content="Start Menu..." />
+                        </WrapPanel>
+                    </Grid>
+
+                    <TextBlock Grid.Row="5" Margin="0,10,0,0" VerticalAlignment="Center" Text="Arguments" />
+                    <TextBox x:Name="ApplicationArgumentsTextBox"
+                             Grid.Row="5"
+                             Grid.Column="1"
+                             Margin="0,10,0,0"
+                             ToolTip="Optional command-line arguments" />
+                </Grid>
+            </GroupBox>
+
+            <StackPanel Margin="0,16,0,0" Orientation="Horizontal">
+                <Button Padding="18,8" Click="OnSaveSettings" Content="Save settings" />
+                <Button Margin="10,0,0,0"
+                        Padding="18,8"
+                        Click="OnResetSettings"
+                        Content="Reset editor" />
+                <Button x:Name="PauseButton"
+                        Margin="10,0,0,0"
+                        Padding="18,8"
+                        Click="OnPauseButton"
+                        Content="Pause" />
+                <TextBlock x:Name="SettingsHintText"
+                           Margin="14,0,0,0"
+                           VerticalAlignment="Center"
+                           Foreground="#6B7280"
+                           Text="Changes apply after restart." />
+            </StackPanel>
+
+            <TextBlock Margin="0,18,0,0"
+                       Foreground="#6B7280"
+                       TextWrapping="Wrap"
+                       Text="Hold the configured radial-menu side button and release on a slot. Click the configured pixel-inspector side button to show XY; drag with the left button to measure a rectangle, hold Shift for 45° constraints, and press Ctrl+C to copy. Press Ctrl+Alt+F12 for an emergency pause; use Resume to turn remapping back on." />
+            <TextBlock x:Name="StatusText"
+                       Margin="0,12,0,0"
+                       Foreground="#2563EB"
+                       Text="Starting global mouse hook..." />
+        </StackPanel>
+    </ScrollViewer>
+</Window>
